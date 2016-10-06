@@ -1,15 +1,14 @@
-from kafka.client import KafkaClient
+from kafka.client import SimpleClient
 from kafka.producer import SimpleProducer, KeyedProducer
-from kafka.conn import DEFAULT_SOCKET_TIMEOUT_SECONDS
 import logging
 
 
 class KafkaLoggingHandler(logging.Handler):
 
-    def __init__(self, hosts_list, topic, timeout_secs=DEFAULT_SOCKET_TIMEOUT_SECONDS, **kwargs):
+    def __init__(self, hosts_list, topic, **kwargs):
         logging.Handler.__init__(self)
 
-        self.kafka_client = KafkaClient(hosts_list, timeout=timeout_secs)
+        self.kafka_client = SimpleClient(hosts_list)
         self.key = kwargs.get("key", None)
         self.kafka_topic_name = topic
 
